@@ -1,0 +1,10 @@
+.custom-range-slider {
+    .range-slider__thumb {
+        height: 13px;
+        width: 13px;
+        background: black;
+    }
+    .range-slider__range {
+        background: black;
+    }
+}
