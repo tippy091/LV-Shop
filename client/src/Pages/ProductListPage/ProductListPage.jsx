@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import FilterIcon from "../../Components/Common/FilterIcon";
 import content from "../../Data/content.json";
 import Category from "../../Components/Filters/Category";
@@ -7,7 +7,7 @@ import ProductCard from "../ProductListPage/ProductCard";
 
 const categories = content?.categories;
 
-const ProductListPage = ({ categoryType }) => {
+const ProductListPage = ({ categoryType, subCategoryType }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 50000 });
 
@@ -23,6 +23,15 @@ const ProductListPage = ({ categoryType }) => {
     return categories?.find((category) => category.code === categoryType);
   }, [categoryType]);
 
+  useEffect(() => {
+    const matchedType = categoryContent?.types.find(
+      (type) => type?.name === subCategoryType
+    );
+
+    if (matchedType) {
+      setSelectedCategories((prev) => [...prev, matchedType.types_id]); // Tick vào category con
+    }
+  }, [subCategoryType, categoryContent]); // Chỉ chạy khi `categoryContent` thay đổi
   const filteredProducts = useMemo(() => {
     if (!content?.products) return [];
 

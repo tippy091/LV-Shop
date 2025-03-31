@@ -4,6 +4,7 @@ import App from "./App";
 import ShopApplicationWrapper from "./Pages/ProductListPage/ShopApplicationWrapper";
 import ProductDetail from "./Pages/ProductListPage/ProductDetail";
 import { loadProductById } from "./routes/Product";
+import ProductListPageComponent from "./Pages/ProductListPage/ProductListPageComponent";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -14,12 +15,8 @@ export const router = createBrowserRouter([
         element: <App />,
       },
       {
-        path: "/women",
-        element: <ProductListPage categoryType={"WOMEN"} />,
-      },
-      {
-        path: "/men",
-        element: <ProductListPage categoryType={"MEN"} />,
+        path: ":mainCategory/:subCategory?",
+        element: <ProductListPageComponent />,
       },
       {
         path: "/perfumes",

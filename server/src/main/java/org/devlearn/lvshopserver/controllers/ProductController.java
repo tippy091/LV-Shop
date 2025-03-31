@@ -1,9 +1,14 @@
 package org.devlearn.lvshopserver.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.devlearn.lvshopserver.dto.ProductDTO;
+import org.devlearn.lvshopserver.entities.Product;
+import org.devlearn.lvshopserver.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,7 +19,27 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 public class ProductController {
 
+    private ProductService productService;
+
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+
+    @GetMapping
+    public ResponseEntity<List<Product>> getAllProducts() {
+
+        List<Product> productList = productService.getAllProducts();
+        return new ResponseEntity<>(productList, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
+        Product product1 = productService.addProduct(productDTO);
+        return null;
+    }
 }

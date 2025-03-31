@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import MenBags from "../../assets/category-photos/men-bags.png";
 import MenSneakers from "../../assets/category-photos/men-sneakers.png";
 import MenLeather from "../../assets/category-photos/men-leather.png";
@@ -14,22 +15,32 @@ const items = [
   {
     title: "Men's Bags",
     imagePath: MenBags,
+    category: "men",
+    subCategory: "Bags",
   },
   {
     title: "Men's Sneakers",
     imagePath: MenSneakers,
+    category: "men",
+    subCategory: "Sneakers",
   },
   {
     title: "Men's Leather",
     imagePath: MenLeather,
+    category: "men",
+    subCategory: "Leather",
   },
   {
     title: "Men's Accessories",
     imagePath: MenAccess,
+    category: "men",
+    subCategory: "Accessories",
   },
   {
     title: "Women's Bags",
     imagePath: WomenBags,
+    category: "women",
+    subCategory: "Bags",
   },
   {
     title: "Perfume",
@@ -38,16 +49,29 @@ const items = [
   {
     title: "Women's Leather",
     imagePath: WomenLeather,
+    category: "women",
+    subCategory: "Leather",
   },
   {
     title: "Women's Accessories",
     imagePath: WomenAccess,
+    category: "women",
+    subCategory: "Accessories",
   },
 ];
 
-const Card = ({ title, imagePath }) => {
+const Card = ({ title, imagePath, category, subCategory }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`${category}/${subCategory}`);
+  };
+
   return (
-    <div className="flex flex-col p-8 ml-2">
+    <div
+      className="flex flex-col p-8 ml-2 cursor-pointer"
+      onClick={handleClick}
+    >
       <img
         src={imagePath}
         alt="Men Bags"
@@ -74,6 +98,8 @@ const BannerCard = ({ productCategory }) => {
               key={item?.title + index}
               title={item.title}
               imagePath={item.imagePath}
+              category={item.category}
+              subCategory={item.subCategory}
             />
           ))}
       </div>

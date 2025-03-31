@@ -58,13 +58,15 @@ public class Product {
     private List<ProductVariant> productVariants;
 
     @ManyToOne
-    @JoinColumn(table = "category_id", nullable = false)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @ManyToOne
-    @JoinColumn(table ="categoryType_id", nullable = false)
+    @JoinColumn(name ="categoryType_id", nullable = false)
     private CategoryType categoryType;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Resources> resources;
 
     @PrePersist
     protected void onCreate() {

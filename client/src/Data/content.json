@@ -72,7 +72,7 @@
         {
           "id": 1,
           "name": "Women",
-          "code": "WOMEN",
+          "code": "women",
           "path":"/women",
           "description":"WOMENS",
           "types": [
@@ -110,7 +110,7 @@
         {
           "id": 2,
           "name": "Men",
-          "code": "MEN",
+          "code": "men",
           "path":"/men",
           "description":"MEN",
           "types": [
@@ -147,9 +147,9 @@
         },
         {
           "id": 3,
-          "name": "Perfume",
+          "name": "Perfumes",
           "code": "PERFUMES",
-          "path":"/perfume",
+          "path":"/perfumes",
           "description":"PERFUMES",
           "types": [
             {

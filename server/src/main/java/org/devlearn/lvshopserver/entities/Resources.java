@@ -1,6 +1,5 @@
 package org.devlearn.lvshopserver.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,16 +11,16 @@ import java.util.UUID;
 /**
  * @author tippy091
  * @created 31/03/2025
- * @project lv-shop-server
+ * @project server
  **/
 
 @Entity
-@Table(name = "category_type")
+@Table(name="product_resources")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CategoryType {
+public class Resources {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,13 +30,15 @@ public class CategoryType {
     private String name;
 
     @Column(nullable = false)
-    private String code;
+    private String url;
 
     @Column(nullable = false)
-    private String description;
+    private Boolean isPrimary;
+
+    @Column(nullable = false)
+    private String type;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    @JsonIgnore
-    private Category category;
+    @JoinColumn(name="product_id", nullable = false)
+    private Product product;
 }
