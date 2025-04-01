@@ -81,7 +81,7 @@ const ProductListPage = ({ categoryType, subCategoryType }) => {
           <p className="text-black text-lg mb-5">
             {categoryContent?.description}
           </p>
-          <div className="pt-1 grid grid-cols-4 gap-10 px-2 mb-20">
+          <div className="pt-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 px-2 mb-20">
             {filteredProducts?.map((item, index) => (
               <ProductCard key={index} {...item} />
             ))}

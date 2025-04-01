@@ -20,7 +20,7 @@ const PriceFilter = ({ priceRange, setPriceRange }) => {
       />
       <div className="flex justify-between">
         <div className="border rounded-lg h-8 mt-4 max-w-[60%] w-[40%] flex items-center">
-          <p className="p-2 text-gray-600">$</p>
+          <p className="p-2 text-2 text-gray-600">$</p>
           <input
             type="number"
             value={priceRange.min}

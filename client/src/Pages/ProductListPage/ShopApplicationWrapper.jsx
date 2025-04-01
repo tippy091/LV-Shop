@@ -10,7 +10,6 @@ const ShopApplicationWrapper = () => {
     <div>
       <Navigation />
       <Outlet />
-      <Footer content={content?.footer} />
     </div>
   );
 };
