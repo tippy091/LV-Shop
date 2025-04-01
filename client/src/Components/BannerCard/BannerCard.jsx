@@ -10,7 +10,6 @@ import WomenLeather from "../../assets/category-photos/women-leather.png";
 import WomenAccess from "../../assets/category-photos/women-accessories.png";
 
 import PropTypes from "prop-types";
-
 const items = [
   {
     title: "Men's Bags",
@@ -84,12 +83,12 @@ const Card = ({ title, imagePath, category, subCategory }) => {
   );
 };
 
-const BannerCard = ({ productCategory }) => {
+const BannerCard = ({ title }) => {
   return (
     <div>
       <div className="flex flex-wrap justify-center items-start mt-5 my-5 gap-2">
         <div className=""></div>
-        <p className="text-3xl">{productCategory}</p>
+        <p className="text-3xl">{title}</p>
       </div>
       <div className="flex flex-wrap px-[5px]">
         {items &&
