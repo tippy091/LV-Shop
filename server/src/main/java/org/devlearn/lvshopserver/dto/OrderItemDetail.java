@@ -4,23 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.devlearn.lvshopserver.entities.Product;
 
 import java.util.UUID;
 
-/**
- * @author tippy091
- * @created 31/03/2025
- * @project server
- **/
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class ProductVariantDTO {
-
+public class OrderItemDetail {
 
     private UUID id;
-    private String size;
-    private Integer stockQuantity;
+    private Product product;
+    private UUID productVariantId;
+    private Integer quantity;
+    private Double itemPrice;
 }

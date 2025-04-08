@@ -5,23 +5,25 @@ import org.devlearn.lvshopserver.auth.config.JWTTokenHelper;
 import org.devlearn.lvshopserver.auth.entities.User;
 import org.devlearn.lvshopserver.auth.services.OAuth2Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.io.IOException;
 
 /**
- * @author tippy091
  * @created 08/04/2025
  * @project server
- **/
+ * @author tippy091
+ *
+**/
+
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/oauth2")
 public class OAuth2Controller {
 
@@ -35,13 +37,12 @@ public class OAuth2Controller {
     public void callbackOAuth2(@AuthenticationPrincipal OAuth2User oAuth2User, HttpServletResponse response) throws IOException {
 
         String userName = oAuth2User.getAttribute("email");
-        User user=oAuth2Service.getUser(userName);
+        User user= oAuth2Service.getUser(userName);
         if(null == user){
             user = oAuth2Service.createUser(oAuth2User,"google");
         }
 
         String token = jwtTokenHelper.generateToken(user.getUsername());
-
         response.sendRedirect("http://localhost:5173/oauth2/callback?token="+token);
 
     }

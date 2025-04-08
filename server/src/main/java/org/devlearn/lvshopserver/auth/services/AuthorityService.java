@@ -23,7 +23,7 @@ public class AuthorityService {
     // Call to get Authorities List
     public List<Authority> getUserAuthority(){
         List<Authority> authorities=new ArrayList<>();
-        Authority authority= authorityRepository.findByRoleCode("USER");
+        Authority authority= authorityRepository.findByRoleCode("ADMIN");
         authorities.add(authority);
         System.out.println(authorities);
         return authorities;

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -18,12 +17,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductResourcesDTO {
+public class ProductVariantDto {
 
     private UUID id;
-    private String name;
-    private String url;
-    private String type;
-    private Boolean isPrimary;
-
+    private String size;
+    private Integer stockQuantity;
 }

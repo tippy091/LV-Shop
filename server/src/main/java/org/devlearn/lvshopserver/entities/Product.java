@@ -19,7 +19,7 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name="products")
+@Table(name = "products")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,14 +27,13 @@ import java.util.UUID;
 public class Product {
 
     @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private UUID id;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column
     private String description;
 
     @Column(nullable = false)
@@ -43,28 +42,27 @@ public class Product {
     @Column(nullable = false)
     private boolean isNewArrival;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false,unique = true)
     private String slug;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date createdAt;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date updatedAt;
 
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
     private List<ProductVariant> productVariants;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id",nullable = false)
     @JsonIgnore
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="categoryType_id", nullable = false)
+    @JoinColumn(name = "categoryType_id",nullable = false)
     @JsonIgnore
     private CategoryType categoryType;
 
@@ -81,9 +79,4 @@ public class Product {
     protected void onUpdate() {
         updatedAt = new java.util.Date();
     }
-
-
-
-
-
 }

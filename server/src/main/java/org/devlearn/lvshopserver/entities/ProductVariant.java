@@ -14,8 +14,6 @@ import java.util.UUID;
  * @created 31/03/2025
  * @project lv-shop-server
  **/
-
-
 @Entity
 @Table(name = "product_variant")
 @Data
@@ -25,8 +23,9 @@ import java.util.UUID;
 public class ProductVariant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private UUID id;
+
 
     @Column(nullable = false)
     private String size;
@@ -34,11 +33,9 @@ public class ProductVariant {
     @Column(nullable = false)
     private Integer stockQuantity;
 
-
-    // Tạo mối liên hệ giữa Product và ProductVariant
-    // FK Product_ProductVariant_ProductID
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id",nullable = false)
     @JsonIgnore
     private Product product;
 }
+

@@ -6,8 +6,11 @@ const OAuth2LoginCallback = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    const token = url.searchParams.get("token");
+    // const url = new URL(window.location.href);
+    // const token = url.searchParams.get("token");
+
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
 
     console.log(token);
 

@@ -1,7 +1,8 @@
 package org.devlearn.lvshopserver.controllers;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
-import org.devlearn.lvshopserver.dto.ProductDTO;
+import org.devlearn.lvshopserver.dto.ProductDto;
 import org.devlearn.lvshopserver.entities.Product;
 import org.devlearn.lvshopserver.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,43 +28,42 @@ public class ProductController {
     private ProductService productService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService){
         this.productService = productService;
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAllProducts(@RequestParam(required = false) UUID categoryID,
-            @RequestParam(required = false) UUID typeID, @RequestParam(required = false) String slug) {
-
-        List<ProductDTO> productList = new ArrayList<>();
-        if(StringUtils.isNotBlank(slug)) {
-            ProductDTO productDTO = productService.getProductBySlug(slug);
-            productList.add(productDTO);
-
-        } else {
-            productList = productService.getAllProducts(categoryID, typeID);
+    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(required = false,name = "categoryId",value = "categoryId") UUID categoryId, @RequestParam(required = false,name = "typeId",value = "typeId") UUID typeId, @RequestParam(required = false) String slug, HttpServletResponse response){
+        List<ProductDto> productList = new ArrayList<>();
+        if(StringUtils.isNotBlank(slug)){
+            ProductDto productDto = productService.getProductBySlug(slug);
+            productList.add(productDto);
         }
-        productList = productService.getAllProducts(categoryID, typeID);
+        else {
+            productList = productService.getAllProducts(categoryId, typeId);
+        }
+        response.setHeader("Content-Range",String.valueOf(productList.size()));
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> getProductById(@PathVariable UUID id) {
-        ProductDTO productDTO = productService.getProductById(id);
-        return new ResponseEntity<>(productDTO, HttpStatus.OK);
+    public ResponseEntity<ProductDto> getProductById(@PathVariable UUID id){
+        ProductDto productDtos = productService.getProductById(id);
+        return new ResponseEntity<>(productDtos, HttpStatus.OK);
     }
 
+    //   create Product
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
-        Product product = productService.addProduct(productDTO);
-        return new ResponseEntity<>(product, HttpStatus.CREATED);
+    public ResponseEntity<Product> createProduct(@RequestBody ProductDto productDto){
+        Product product = productService.addProduct(productDto);
+        return new ResponseEntity<>(product,HttpStatus.CREATED);
     }
-
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@RequestBody ProductDTO productDTO){
-        Product product = productService.updateProduct(productDTO);
+    public ResponseEntity<Product> updateProduct(@RequestBody ProductDto productDto,@PathVariable UUID id){
+        Product product = productService.updateProduct(productDto, id);
         return new ResponseEntity<>(product,HttpStatus.OK);
     }
+
 
 }

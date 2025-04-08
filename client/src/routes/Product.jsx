@@ -1,6 +1,6 @@
 import { getProductBySlug } from "../api/fetchProduct";
 import { setLoading } from "../stores/features/Common";
-import store from "../stores/Store";
+import store from "../stores/store";
 
 export const loadProductBySlug = async ({ params }) => {
   try {

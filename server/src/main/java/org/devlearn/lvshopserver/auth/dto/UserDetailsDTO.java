@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.devlearn.lvshopserver.entities.Address;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -26,5 +28,5 @@ public class UserDetailsDTO {
     private String phoneNumber;
     private String email;
     private Object authorityList;
-
+    private List<Address> addressList;
 }

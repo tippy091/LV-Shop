@@ -2,10 +2,14 @@ import React from "react";
 import WishList from "../Common/WishList";
 import AccountIcon from "../Common/AccountIcon";
 import CartIcon from "../Common/CartIcon";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./Navigation.css";
+import { useSelector } from "react-redux";
+import { countCartItems } from "../../stores/features/Cart";
 
 const Navigation = ({ variant = "default" }) => {
+  const navigate = useNavigate();
+  const cartLength = useSelector(countCartItems);
   return (
     <nav className="flex items-center py-6 px-16 justify-between gap-30">
       <div className="">
@@ -83,13 +87,18 @@ const Navigation = ({ variant = "default" }) => {
               </button>
             </li>
             <li>
-              <button>
+              <button onClick={() => navigate("/account-details/profile")}>
                 <AccountIcon />
               </button>
             </li>
             <li>
-              <Link href="/cart-items">
+              <Link to="/cart-items" className="flex flex-wrap">
                 <CartIcon />
+                {cartLength > 0 && (
+                  <div className="absolute ml-6 inline-flex items-center justify-center h-6 w-6 bg-black text-white rounded-full border-2 text-xs">
+                    {cartLength}
+                  </div>
+                )}
               </Link>
             </li>
           </ul>

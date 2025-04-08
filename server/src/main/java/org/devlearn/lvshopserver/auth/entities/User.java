@@ -2,6 +2,7 @@ package org.devlearn.lvshopserver.auth.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.devlearn.lvshopserver.entities.Address;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -52,6 +53,9 @@ public class User implements UserDetails {
     )
     private List<Authority> authorities;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Address> addressList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

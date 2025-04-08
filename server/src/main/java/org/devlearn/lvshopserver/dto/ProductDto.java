@@ -15,25 +15,24 @@ import java.util.UUID;
  * @project server
  **/
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductDTO {
+public class ProductDto {
 
     private UUID id;
     private String name;
     private String description;
     private BigDecimal price;
     private boolean isNewArrival;
-    private String categoryName;
-    private String thumbnail;
     private UUID categoryId;
+    private String thumbnail;
+    private String slug;
+    private String categoryName;
     private UUID categoryTypeId;
     private String categoryTypeName;
-    private String slug;
-
-    private List<ProductVariantDTO> productVariantDTO;
-    private List<ProductResourcesDTO> productResourcesDTO;
+    private List<ProductVariantDto> variants;
+    private List<ProductResourceDto> productResources;
 }
+

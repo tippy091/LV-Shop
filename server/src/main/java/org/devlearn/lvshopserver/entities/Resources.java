@@ -16,7 +16,7 @@ import java.util.UUID;
  **/
 
 @Entity
-@Table(name="product_resources")
+@Table(name = "product_resources")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,7 +24,7 @@ import java.util.UUID;
 public class Resources {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private UUID id;
 
     @Column(nullable = false)
@@ -40,7 +40,8 @@ public class Resources {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name="product_id", nullable = false)
+    @JoinColumn(name = "product_id",nullable = false)
     @JsonIgnore
     private Product product;
 }
+

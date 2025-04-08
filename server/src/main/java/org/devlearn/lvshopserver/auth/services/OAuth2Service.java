@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
  * @project server
  **/
 
+
 @Service
 public class OAuth2Service {
 

@@ -23,3 +23,7 @@ export const saveToken = (token) => {
 export const logOut = () => {
   localStorage.clear();
 };
+
+export const getToken = () => {
+  return localStorage.getItem("authToken");
+};

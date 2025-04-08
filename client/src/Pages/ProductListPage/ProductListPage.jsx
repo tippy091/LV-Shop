@@ -17,29 +17,19 @@ const ProductListPage = ({ categoryType }) => {
   const dispatch = useDispatch();
 
   const [product, setProducts] = useState([]);
-
-  const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 50000 });
 
   const category = useMemo(() => {
     return categoryData?.find((element) => element?.code === categoryType);
-  }, [categoryData]);
+  }, [categoryData, categoryType]);
 
-  const handleCategoryChange = (categoryId) => {
-    setSelectedCategories(
-      (prev) =>
-        prev.includes(categoryId)
-          ? prev.filter((id) => id !== categoryId) // Bỏ chọn nếu đã chọn trước đó
-          : [...prev, categoryId] // Thêm nếu chưa chọn
-    );
-  };
   const categoryContent = useMemo(() => {
     return categories?.find((category) => category.code === categoryType);
   }, [categoryType]);
 
   useEffect(() => {
     dispatch(setLoading(true));
-    getAllProducts(categories?.id)
+    getAllProducts(category?.id)
       .then((res) => {
         setProducts(res);
       })
@@ -82,11 +72,7 @@ const ProductListPage = ({ categoryType }) => {
           </div>
           <div className="mb-5">
             <p className="text-[16px] text-black font-bold mt-5">Categories </p>
-            <Category
-              types={categoryContent?.types}
-              selectedCategories={selectedCategories}
-              onCategoryChange={handleCategoryChange}
-            />
+            <Category types={categoryContent?.types} />
           </div>
           <hr></hr>
           <div>

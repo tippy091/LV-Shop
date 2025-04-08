@@ -15,6 +15,7 @@ import java.util.UUID;
  * @project lv-shop-server
  **/
 
+
 @Entity
 @Table(name = "category_type")
 @Data
@@ -24,7 +25,7 @@ import java.util.UUID;
 public class CategoryType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private UUID id;
 
     @Column(nullable = false)
@@ -37,7 +38,8 @@ public class CategoryType {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id",nullable = false)
     @JsonIgnore
     private Category category;
 }
+

@@ -1,5 +1,6 @@
 package org.devlearn.lvshopserver.controllers;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.devlearn.lvshopserver.dto.CategoryDTO;
 import org.devlearn.lvshopserver.entities.Category;
 import org.devlearn.lvshopserver.mapper.ProductMapper;
@@ -20,41 +21,44 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/category")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
 
-
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable(value = "id", required = true) UUID categoryId) {
+    public ResponseEntity<Category> getCategoryById(@PathVariable(value = "id",required = true) UUID categoryId){
         Category category = categoryService.getCategory(categoryId);
         return new ResponseEntity<>(category, HttpStatus.OK);
+
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories() {
+    public ResponseEntity<List<Category>> getAllCategories(HttpServletResponse response){
         List<Category> categoryList = categoryService.getAllCategory();
+        response.setHeader("Content-Range",String.valueOf(categoryList.size()));
         return new ResponseEntity<>(categoryList, HttpStatus.OK);
+
     }
 
+
+
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody CategoryDTO categoryDTO) {
-        Category category = categoryService.createCategory(categoryDTO);
+    public ResponseEntity<Category> createCategory(@RequestBody CategoryDTO categoryDto){
+        Category category = categoryService.createCategory(categoryDto);
         return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@RequestBody CategoryDTO categoryDTO, @PathVariable(value = "id", required = true) UUID categoryID) {
-       Category updatedCategory = categoryService.updateCategory(categoryDTO, categoryID);
+    public ResponseEntity<Category> updateCategory(@RequestBody CategoryDTO categoryDto, @PathVariable(value = "id",required = true) UUID categoryId){
+        Category updatedCategory = categoryService.updateCategory(categoryDto,categoryId);
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
-
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Category> deleteCategory(@PathVariable(value = "id", required = true) UUID categoryID) {
-        categoryService.deleteCategory(categoryID);
+    public ResponseEntity<Void> deleteCategory(@PathVariable(value = "id",required = true) UUID categoryId){
+        categoryService.deleteCategory(categoryId);
         return ResponseEntity.ok().build();
     }
 }

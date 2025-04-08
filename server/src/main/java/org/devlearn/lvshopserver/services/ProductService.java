@@ -1,6 +1,6 @@
 package org.devlearn.lvshopserver.services;
 
-import org.devlearn.lvshopserver.dto.ProductDTO;
+import org.devlearn.lvshopserver.dto.ProductDto;
 import org.devlearn.lvshopserver.entities.Product;
 
 import java.util.List;
@@ -13,14 +13,14 @@ import java.util.UUID;
  **/
 public interface ProductService {
 
+    Product addProduct(ProductDto product);
+    List<ProductDto> getAllProducts(UUID categoryId, UUID typeId);
 
-    Product addProduct(ProductDTO productDTO);
+    ProductDto getProductBySlug(String slug);
 
-    List<ProductDTO> getAllProducts(UUID categoryID, UUID typeID);
+    ProductDto getProductById(UUID id);
 
-    ProductDTO getProductBySlug(String slug);
+    Product updateProduct(ProductDto productDto, UUID id);
 
-    ProductDTO getProductById(UUID id);
-
-    Product updateProduct(ProductDTO productDTO);
+    Product fetchProductById(UUID uuid) throws Exception;
 }

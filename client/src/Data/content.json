@@ -72,7 +72,7 @@
         {
           "id": 1,
           "name": "Women",
-          "code": "women",
+          "code": "WOMEN",
           "path":"/women",
           "description":"WOMENS",
           "types": [
@@ -110,7 +110,7 @@
         {
           "id": 2,
           "name": "Men",
-          "code": "men",
+          "code": "MEN",
           "path":"/men",
           "description":"MEN",
           "types": [

@@ -20,7 +20,7 @@ import java.security.Principal;
  **/
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RequestMapping("/api/user")
 public class UserDetailController {
 
@@ -42,6 +42,7 @@ public class UserDetailController {
                 .email(user.getEmail())
                 .id(user.getId())
                 .phoneNumber(user.getPhoneNumber())
+                .addressList(user.getAddressList())
                 .authorityList(user.getAuthorities().toArray()).build();
 
         return new ResponseEntity<>(userDetailsDTO, HttpStatus.OK);
