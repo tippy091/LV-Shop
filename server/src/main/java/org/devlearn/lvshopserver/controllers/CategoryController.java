@@ -2,6 +2,7 @@ package org.devlearn.lvshopserver.controllers;
 
 import org.devlearn.lvshopserver.dto.CategoryDTO;
 import org.devlearn.lvshopserver.entities.Category;
+import org.devlearn.lvshopserver.mapper.ProductMapper;
 import org.devlearn.lvshopserver.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/category")
+@CrossOrigin(origins = "http://localhost:5173")
 public class CategoryController {
 
     @Autowired

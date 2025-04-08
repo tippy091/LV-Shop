@@ -7,7 +7,7 @@ const HeroSection = () => {
       className="relative flex items-center bg-cover flex-start bg-center text-left h-screen max-h-[650px] w-full"
       style={{ backgroundImage: `url(${LVBanner})` }}
     >
-      <div className="absolute inset-0 flex flex-col justify-end items-center px-10 pb-16 lg:pb-24 text-center z-10">
+      <div className="absolute inset-0 flex flex-col justify-end items-center text-center">
         <main>
           <div className="text-left">
             <h1 className="text-3xl text-white">

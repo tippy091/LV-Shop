@@ -28,9 +28,11 @@ public class ProductDTO {
     private BigDecimal price;
     private boolean isNewArrival;
     private String categoryName;
+    private String thumbnail;
     private UUID categoryId;
     private UUID categoryTypeId;
     private String categoryTypeName;
+    private String slug;
 
     private List<ProductVariantDTO> productVariantDTO;
     private List<ProductResourcesDTO> productResourcesDTO;

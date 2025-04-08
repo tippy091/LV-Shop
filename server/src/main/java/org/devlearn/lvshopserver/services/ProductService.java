@@ -4,6 +4,7 @@ import org.devlearn.lvshopserver.dto.ProductDTO;
 import org.devlearn.lvshopserver.entities.Product;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author tippy091
@@ -14,5 +15,12 @@ public interface ProductService {
 
 
     Product addProduct(ProductDTO productDTO);
-    List<Product> getAllProducts();
+
+    List<ProductDTO> getAllProducts(UUID categoryID, UUID typeID);
+
+    ProductDTO getProductBySlug(String slug);
+
+    ProductDTO getProductById(UUID id);
+
+    Product updateProduct(ProductDTO productDTO);
 }

@@ -3,8 +3,15 @@ import ProductListPage from "./Pages/ProductListPage/ProductListPage";
 import App from "./App";
 import ShopApplicationWrapper from "./Pages/ProductListPage/ShopApplicationWrapper";
 import ProductDetail from "./Pages/ProductListPage/ProductDetail";
-import { loadProductById } from "./routes/Product";
+import { loadProductBySlug } from "./routes/Product";
 import ProductListPageComponent from "./Pages/ProductListPage/ProductListPageComponent";
+import AuthenticationWrapper from "./Pages/AuthenticationWrapper";
+import Login from "./Pages/Login/Login";
+import Registrer from "./Pages/Register/Registrer";
+import OAuth2LoginCallback from "./Pages/OAuth2LoginCallback";
+import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import AdminPanel from "./Pages/AdminPanel/AdminPanel";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -23,10 +30,36 @@ export const router = createBrowserRouter([
         element: <ProductListPage categoryType={"PERFUMES"} />,
       },
       {
-        path: "/product/:productId",
-        loader: loadProductById,
+        path: "/product/:slug",
+        loader: loadProductBySlug,
         element: <ProductDetail />,
       },
     ],
+  },
+  {
+    path: "/v1/",
+    element: <AuthenticationWrapper />,
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Registrer />,
+      },
+    ],
+  },
+  {
+    path: "/oauth2/callback",
+    element: <OAuth2LoginCallback />,
+  },
+  {
+    path: "/admin/*",
+    element: (
+      <ProtectedRoute>
+        <AdminPanel />
+      </ProtectedRoute>
+    ),
   },
 ]);

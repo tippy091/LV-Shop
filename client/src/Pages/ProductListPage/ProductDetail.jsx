@@ -2,16 +2,18 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import Breadcrumb from "../../Components/Breadcrumb/Breadcrumb";
 import CartIcon from "../../Components/Common/CartIcon";
-import content from "../../Data/content.json";
 import SizeFilter from "../../Components/Filters/SizeFilter";
 import SvgCreditCard from "../../Components/Common/SvgCreditCard";
 import SvgCloth from "../../Components/Common/SvgCloth";
 import SvgShipping from "../../Components/Common/SvgShipping";
 import SvgReturn from "../../Components/Common/SvgReturn";
-import ProductCard from "../ProductListPage/ProductCard";
+import ProductCard from "./ProductCard";
 import LVBanner from "../../assets/lv-banner5.png";
+import { useSelector } from "react-redux";
+import _ from "lodash";
+import { getAllProducts } from "../../api/fetchProduct";
 
-const categories = content?.categories;
+// const categories = content?.categories;
 
 const extraSections = [
   { icon: <SvgCreditCard />, label: "Secure Payment" },
@@ -34,36 +36,39 @@ const ProductDetail = () => {
   const [image, setImage] = useState();
 
   const [BreadcrumbLinks, setBreadcrumbLink] = useState([]);
+  // const dispatch = useDispatch();
+  // const cartItems = useSelector((state) => state.cartState?.cart);
 
-  const similarProducts = useMemo(() => {
-    return content?.products?.filter(
-      (item) => item?.types_id === product?.types_id && item?.id !== product?.id
-    );
-  }, [product]);
+  const [similarProducts, setSimilarProducts] = useState([]);
+  const categories = useSelector((state) => state?.categoryState?.categories);
 
   const productCategory = useMemo(() => {
-    return categories?.find(
-      (category) => category?.id === product?.category_id
-    );
-  }, [product]);
+    return categories?.find((category) => category?.id === product?.categoryId);
+  }, [product, categories]);
+
+  useEffect(() => {
+    getAllProducts(product?.categoryId, product?.categoryTypeId)
+      .then((res) => {
+        const excludedProduct = res?.filter((item) => item?.id !== product?.id);
+        setSimilarProducts(excludedProduct);
+      })
+      .catch(() => {});
+  }, [product?.categoryId, product?.categoryTypeId]);
 
   // UseEffect là mỗi lần reload lại trang, hoặc chuyển trang
   useEffect(() => {
-    setImage(
-      product?.images[0]?.startsWith("http")
-        ? product?.images[0]
-        : product?.thumbnail
-    );
+    setImage(product?.thumbnail);
     setBreadcrumbLink([]);
     const arrayLinks = [
       { title: "Shop", path: "/" },
       {
         title: productCategory?.name,
-        path: productCategory?.path,
+        path: productCategory?.name,
       },
     ];
-    const productType = productCategory?.types?.find(
-      (item) => item?.types_id === product?.types_id
+
+    const productType = productCategory?.categoryTypes?.find(
+      (item) => item?.id === product?.categoryTypeId
     );
 
     if (productType) {
@@ -76,6 +81,13 @@ const ProductDetail = () => {
     setBreadcrumbLink(arrayLinks);
   }, [productCategory, product]);
 
+  // const addItemToCart = useCallback(() => {}, []);
+
+  const sizes = useMemo(() => {
+    const sizeSet = _.uniq(_.map(product?.variants, "size"));
+    return sizeSet;
+  }, [product]);
+
   return (
     <div>
       <div className="flex flex-col md:flex-row px-10">
@@ -85,13 +97,14 @@ const ProductDetail = () => {
             <div className="w-[100%] md:w-[20%] justify-center h-[40px] md:h-[420px]">
               {/* Stack Iamges */}
               <div className="flex flex-row md:flex-col justify-center h-full mt-10">
-                {product?.images.map((item, index) => (
+                {product?.productResources?.map((item, index) => (
                   <button
-                    onClick={() => setImage(item)}
+                    key={index}
+                    onClick={() => setImage(item?.url)}
                     className="rounded-lg w-fit p-2"
                   >
                     <img
-                      src={item}
+                      src={item?.url}
                       className="h-[100px] w-[100px] bg-cover bg-center p- hover:scale-105 bg-gray-100"
                       alt={"Sample-" + index}
                     />
@@ -103,7 +116,7 @@ const ProductDetail = () => {
               <img
                 src={image}
                 className="h-full w-full max-h-[520px] rounded-lg cursor-pointer object-cover mb-5 bg-gray-100"
-                alt={product?.title}
+                alt={product?.name}
               />
             </div>
           </div>
@@ -112,7 +125,7 @@ const ProductDetail = () => {
           {/* product description */}
           <Breadcrumb links={BreadcrumbLinks} />
 
-          <p className="text-2xl pt-2">{product?.title}</p>
+          <p className="text-2xl pt-2">{product?.name}</p>
 
           {/* Price */}
           <p className="text-xl bold py-2">$ {product?.price}.00</p>
@@ -128,7 +141,7 @@ const ProductDetail = () => {
             </div>
           </div>
           <div className="mt-5 grid grid-cols-2">
-            <SizeFilter sizes={product?.size} hidleTitle />
+            <SizeFilter sizes={sizes} hidleTitle multi={false} />
           </div>
           <div className="flex pt-2">
             <button className="bg-black rounded-lg h-[50px] hover:scale-105">
@@ -158,7 +171,7 @@ const ProductDetail = () => {
           <p className="text-2xl">Product Description</p>
         </div>
         {/* Mô tả */}
-        <p className="px-8 py-2">{product.description}</p>
+        <p className="px-8 py-2">{product?.description}</p>
 
         {/* Ảnh */}
         <img

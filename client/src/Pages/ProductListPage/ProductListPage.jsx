@@ -1,15 +1,29 @@
 import React, { useMemo, useState, useEffect } from "react";
 import FilterIcon from "../../Components/Common/FilterIcon";
+import { useDispatch, useSelector } from "react-redux";
 import content from "../../Data/content.json";
 import Category from "../../Components/Filters/Category";
 import PriceFilter from "../../Components/Filters/PriceFilter";
 import ProductCard from "../ProductListPage/ProductCard";
+import { setLoading } from "../../stores/features/Common";
+
+import { getAllProducts } from "../../api/fetchProduct";
 
 const categories = content?.categories;
 
-const ProductListPage = ({ categoryType, subCategoryType }) => {
+const ProductListPage = ({ categoryType }) => {
+  const categoryData = useSelector((state) => state?.categoryState?.categories);
+
+  const dispatch = useDispatch();
+
+  const [product, setProducts] = useState([]);
+
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 50000 });
+
+  const category = useMemo(() => {
+    return categoryData?.find((element) => element?.code === categoryType);
+  }, [categoryData]);
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategories(
@@ -24,33 +38,38 @@ const ProductListPage = ({ categoryType, subCategoryType }) => {
   }, [categoryType]);
 
   useEffect(() => {
-    const matchedType = categoryContent?.types.find(
-      (type) => type?.name === subCategoryType
-    );
+    dispatch(setLoading(true));
+    getAllProducts(categories?.id)
+      .then((res) => {
+        setProducts(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+  }, [category?.id, dispatch, categoryContent]); // Chỉ chạy khi `categoryContent` thay đổi
 
-    if (matchedType) {
-      setSelectedCategories((prev) => [...prev, matchedType.types_id]); // Tick vào category con
-    }
-  }, [subCategoryType, categoryContent]); // Chỉ chạy khi `categoryContent` thay đổi
-  const filteredProducts = useMemo(() => {
-    if (!content?.products) return [];
+  // const filteredProducts = useMemo(() => {
+  //   if (!content?.products) return [];
 
-    // Lấy category hiện tại
-    const category = categories?.find((cat) => cat.code === categoryType);
+  //   // Lấy category hiện tại
+  //   const category = categories?.find((cat) => cat.code === categoryType);
 
-    return content.products.filter((product) => {
-      const matchesCategory = category
-        ? product.category_id === category.id
-        : true;
-      const matchesType =
-        selectedCategories.length === 0 ||
-        selectedCategories.includes(product.types_id);
-      const matchesPrice =
-        product.price >= priceRange.min && product.price <= priceRange.max;
+  //   return content.products.filter((product) => {
+  //     const matchesCategory = category
+  //       ? product.category_id === category.id
+  //       : true;
+  //     const matchesType =
+  //       selectedCategories.length === 0 ||
+  //       selectedCategories.includes(product.types_id);
+  //     const matchesPrice =
+  //       product.price >= priceRange.min && product.price <= priceRange.max;
 
-      return matchesCategory && matchesType && matchesPrice;
-    });
-  }, [categoryType, selectedCategories, priceRange]);
+  //     return matchesCategory && matchesType && matchesPrice;
+  //   });
+  // }, [categoryType, selectedCategories, priceRange]);
 
   return (
     <div>
@@ -78,12 +97,14 @@ const ProductListPage = ({ categoryType, subCategoryType }) => {
           </div>
         </div>
         <div className="p-[10px]">
-          <p className="text-black text-lg mb-5">
-            {categoryContent?.description}
-          </p>
+          <p className="text-black text-lg mb-5">{category?.description}</p>
           <div className="pt-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 px-2 mb-20">
-            {filteredProducts?.map((item, index) => (
-              <ProductCard key={index} {...item} />
+            {product?.map((item, index) => (
+              <ProductCard
+                key={item?.id + "_" + index}
+                {...item}
+                title={item?.name}
+              />
             ))}
           </div>
         </div>

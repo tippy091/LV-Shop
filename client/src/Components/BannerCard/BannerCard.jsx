@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import MenBags from "../../assets/category-photos/men-bags.png";
 import MenSneakers from "../../assets/category-photos/men-sneakers.png";
 import MenLeather from "../../assets/category-photos/men-leather.png";
@@ -59,18 +58,9 @@ const items = [
   },
 ];
 
-const Card = ({ title, imagePath, category, subCategory }) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(`${category}/${subCategory}`);
-  };
-
+const Card = ({ title, imagePath }) => {
   return (
-    <div
-      className="flex flex-col p-8 ml-2 cursor-pointer"
-      onClick={handleClick}
-    >
+    <div className="flex flex-col p-8 ml-2">
       <img
         src={imagePath}
         alt="Men Bags"
@@ -97,8 +87,6 @@ const BannerCard = ({ title }) => {
               key={item?.title + index}
               title={item.title}
               imagePath={item.imagePath}
-              category={item.category}
-              subCategory={item.subCategory}
             />
           ))}
       </div>

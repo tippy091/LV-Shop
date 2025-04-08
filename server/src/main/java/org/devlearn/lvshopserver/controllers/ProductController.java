@@ -1,5 +1,6 @@
 package org.devlearn.lvshopserver.controllers;
 
+import org.apache.commons.lang3.StringUtils;
 import org.devlearn.lvshopserver.dto.ProductDTO;
 import org.devlearn.lvshopserver.entities.Product;
 import org.devlearn.lvshopserver.services.ProductService;
@@ -8,8 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author tippy091
@@ -17,9 +19,9 @@ import java.util.List;
  * @project lv-shop-server
  **/
 
-
 @RestController
 @RequestMapping("/api/products")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ProductController {
 
     private ProductService productService;
@@ -29,17 +31,39 @@ public class ProductController {
         this.productService = productService;
     }
 
-
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
+    public ResponseEntity<List<ProductDTO>> getAllProducts(@RequestParam(required = false) UUID categoryID,
+            @RequestParam(required = false) UUID typeID, @RequestParam(required = false) String slug) {
 
-        List<Product> productList = productService.getAllProducts();
+        List<ProductDTO> productList = new ArrayList<>();
+        if(StringUtils.isNotBlank(slug)) {
+            ProductDTO productDTO = productService.getProductBySlug(slug);
+            productList.add(productDTO);
+
+        } else {
+            productList = productService.getAllProducts(categoryID, typeID);
+        }
+        productList = productService.getAllProducts(categoryID, typeID);
         return new ResponseEntity<>(productList, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable UUID id) {
+        ProductDTO productDTO = productService.getProductById(id);
+        return new ResponseEntity<>(productDTO, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
-        Product product1 = productService.addProduct(productDTO);
-        return null;
+        Product product = productService.addProduct(productDTO);
+        return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@RequestBody ProductDTO productDTO){
+        Product product = productService.updateProduct(productDTO);
+        return new ResponseEntity<>(product,HttpStatus.OK);
+    }
+
 }
