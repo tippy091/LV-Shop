@@ -50,7 +50,7 @@ const CheckoutForm = ({ userId, addressId }) => {
 
                 confirmParams: {
                   payment_method: "pm_card_visa",
-                  return_url: "http://localhost:5173/confirmPayment",
+                  return_url: "http://13.239.40.146:5173/confirmPayment",
                 },
               })
               .then((res) => {

@@ -23,7 +23,7 @@ import java.io.IOException;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://13.239.40.146:5173")
 @RequestMapping("/oauth2")
 public class OAuth2Controller {
 
@@ -43,7 +43,7 @@ public class OAuth2Controller {
         }
 
         String token = jwtTokenHelper.generateToken(user.getUsername());
-        response.sendRedirect("http://localhost:5173/oauth2/callback?token="+token);
+        response.sendRedirect("http://13.239.40.146:5173/oauth2/callback?token="+token);
 
     }
 }

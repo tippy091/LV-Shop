@@ -26,7 +26,7 @@ import java.util.Map;
  * @project server
  **/
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://13.239.40.146:5173")
 @RequestMapping("/api/auth")
 public class AuthController {
 

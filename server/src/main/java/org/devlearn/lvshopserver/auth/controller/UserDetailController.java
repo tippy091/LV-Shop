@@ -20,7 +20,7 @@ import java.security.Principal;
  **/
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+@CrossOrigin(origins = "http://13.239.40.146:5173", allowCredentials = "true")
 @RequestMapping("/api/user")
 public class UserDetailController {
 
